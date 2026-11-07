@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact</title>
+  <style>
+    body { font-family: sans-serif; max-width: 500px; margin: 2rem auto; }
+    label { display: block; margin-top: .8rem; }
+    input { width: 100%; padding: .4rem; box-sizing: border-box; }
+    .error { color: #b00020; margin-top: 1rem; }
+    button { margin-top: 1rem; padding: .5rem 1rem; }
+  </style>
+</head>
+<body>
+  <h1 th:text="${contact.id == null} ? 'Nouveau contact' : 'Modifier le contact'">Contact</h1>
+  <p class="error" th:if="${error}" th:text="${error}"></p>
+
+  <form th:action="@{/contacts/save}" method="post">
+    <input type="hidden" name="id" th:value="${contact.id}">
+
+    <label>Prénom *
+      <input type="text" name="firstName" th:value="${contact.firstName}" required>
+    </label>
+    <label>Nom *
+      <input type="text" name="lastName" th:value="${contact.lastName}" required>
+    </label>
+    <label>Email
+      <input type="email" name="email" th:value="${contact.email}">
+    </label>
+    <label>Téléphone
+      <input type="text" name="phone" th:value="${contact.phone}">
+    </label>
+    <label>Adresse
+      <input type="text" name="address" th:value="${contact.address}">
+    </label>
+
+    <button type="submit">Enregistrer</button>
+    <a th:href="@{/contacts}">Annuler</a>
+  </form>
+</body>
+</html>

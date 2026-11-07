@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Contacts</title>
+  <style>
+    body { font-family: sans-serif; max-width: 900px; margin: 2rem auto; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: .5rem; text-align: left; }
+    th { background: #f0f0f0; }
+    form { display: inline; }
+    .btn { padding: .3rem .7rem; }
+  </style>
+</head>
+<body>
+  <h1>Carnet d'adresses</h1>
+  <p>
+    <a th:href="@{/}">Accueil</a> ·
+    <a th:href="@{/contacts/new}">+ Nouveau contact</a> ·
+    <a th:href="@{/jsp/contacts}">Vue JSP</a>
+  </p>
+
+  <table>
+    <tr><th>Nom</th><th>Email</th><th>Téléphone</th><th>Adresse</th><th>Actions</th></tr>
+    <tr th:each="c : ${contacts}">
+      <td th:text="${c.lastName + ' ' + c.firstName}">Nom</td>
+      <td th:text="${c.email}">email</td>
+      <td th:text="${c.phone}">tel</td>
+      <td th:text="${c.address}">adresse</td>
+      <td>
+        <a th:href="@{/contacts/edit(id=${c.id})}">Modifier</a>
+        <form th:action="@{/contacts/delete}" method="post"
+              onsubmit="return confirm('Supprimer ce contact ?');">
+          <input type="hidden" name="id" th:value="${c.id}">
+          <button class="btn" type="submit">Supprimer</button>
+        </form>
+      </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(contacts)}">
+      <td colspan="5">Aucun contact pour le moment.</td>
+    </tr>
+  </table>
+</body>
+</html>
